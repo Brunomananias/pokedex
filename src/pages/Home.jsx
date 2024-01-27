@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Grid } from '@mui/material'
+import { CircularProgress, Grid } from '@mui/material'
 import { Container } from '@mui/system'
 import Navbar from '../components/Navbar'
 import PokemonCard from '../components/PokemonCard'
@@ -18,27 +18,46 @@ export const Home = () => {
             endpoints.push(`https://pokeapi.co/api/v2/pokemon/${i}/`)
         }
         console.log(endpoints)
-        var response = axios.all(endpoints.map((endpoint) => axios.get(endpoint))).then((res) => setPokemons(res))
-        // axios
-        // .get("https://pokeapi.co/api/v2/pokemon?limit=50")
-        // .then((res) => setPokemons(res.data.results))
-        // .catch((err) => console.log(err))
+        axios.all(endpoints.map((endpoint) => axios.get(endpoint))).then((res) => setPokemons(res))
+    }
+
+    //FILTRA POKEMON POR NOME
+
+    const pokemonFilter = (name) => {
+        var filteredPokemons = []
+
+        if(name === ""){
+            getPokemons()
+        }
+
+        for(var i in pokemons){
+            if(pokemons[i].data.name.includes(name)){
+                filteredPokemons.push(pokemons[i])
+            }
+        }
+        setPokemons(filteredPokemons)
     }
 
     
     return (
-        <div>
-            <Navbar/>
+        <div style={{backgroundColor: '#2c313a'}}> 
+               
+            <Navbar pokemonFilter={pokemonFilter}/>
             <Container maxWidth="xl">
-                <Grid Container container spacing={6}>
-                    {pokemons.map((pokemon, key) => (
-                    <Grid item xs={2} key={key}>
-                    <PokemonCard name={pokemon.data.name} image={pokemon.data.sprites.front_default}/>
+                <Grid container spacing={3}>
+                    {pokemons.length === 0 ? ( 
+                        <CircularProgress/>  
+                    ) : (
+                    pokemons.map((pokemon, key) => (
+                    <Grid item xs={12} sm={6} md={4} lg={2} key={key}>
+                    <PokemonCard name={pokemon.data.name} image={pokemon.data.sprites.front_default} types={pokemon.data.types}/>
                     </Grid>
-                    ))}
+                    ))
+                    )}
                 </Grid>
+             
             </Container>
-        
+            
         </div>
     )
 }
