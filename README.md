@@ -1,4 +1,4 @@
-Site feito em React, consumindo a API do pokemon.
+Site feito em React, utilizando a biblioteca MUI, e consumindo a API do pokemon.
 
 # Getting Started with Create React App
 
