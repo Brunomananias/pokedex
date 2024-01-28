@@ -1,3 +1,5 @@
+Site feito em React, utilizando a biblioteca MUI, e consumindo a API do pokemon.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
